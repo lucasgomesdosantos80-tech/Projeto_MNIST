@@ -36,3 +36,15 @@ Endpoint Principal de Predição: /predict
 
 6. Links das Evidências
 Vídeo Explicativo (Google Drive): [Cole aqui o link do vídeo ao finalizar]
+
+## 📊 Métricas e Desempenho do Modelo (Fase 1)
+
+O modelo serializado em `models/modelo_mnist.pkl` é uma **Rede Neural Multi-Layer Perceptron (MLP)**. A tabela abaixo apresenta a comparação de desempenho obtida no conjunto de teste:
+
+| Modelo | Acurácia Global | Precisão Ponderada | Recall Ponderado | F1-Score Ponderado |
+| :--- | :---: | :---: | :---: | :---: |
+| **Random Forest** | 96.48% (0.9648) | 0.9648 | 0.9648 | 0.9648 |
+| **SVM (RBF)** | 98.30% (0.9830) | 0.9830 | 0.9830 | 0.9830 |
+| **Rede Neural MLP (Empregado na API)** | **97.89% (0.9789)** | **0.9789** | **0.9789** | **0.9789** |
+
+*O modelo MLP foi o selecionado para servir a API devido ao excelente equilíbrio entre tempo de inferência, tamanho do artefato e alta capacidade de generalização.*
