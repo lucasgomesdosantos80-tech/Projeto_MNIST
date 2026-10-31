@@ -5,3 +5,4 @@ venv/
 __pycache__/
 *.pyc
 *.pyo
+routers/__pycache__/mnist_router.cpython-314.pyc
