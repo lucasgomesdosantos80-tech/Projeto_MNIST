@@ -40,7 +40,7 @@ Interface Interativa (Swagger UI): Aceder a http://127.0.0.1:8000/docs após ini
 Endpoint Principal de Predição: /mnist/predict (conforme prefixo da rota configurada).
 
 6. Links das Evidências
-Vídeo Explicativo (Google Drive): [Cole aqui o link do vídeo ao finalizar]
+Vídeo Explicativo (Google Drive): [https://drive.google.com/file/d/1W1fz_2czQg1_qSqENwSjqCksIV2ogF0E/view?usp=sharing]
 
 📊 Métricas e Desempenho do Modelo (Fase 1)
 O modelo serializado em models/modelo_mnist.pkl é uma Rede Neural Multi-Layer Perceptron (MLP). A tabela abaixo apresenta a comparação de desempenho obtida no conjunto de teste:
