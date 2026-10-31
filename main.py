@@ -25,11 +25,11 @@ app = FastAPI(
         " utilizando o modelo MLP."
     ),
     version="1.0.0",
-    lifespan=lifespan,  # Regista o ciclo de vida configurado acima
+    lifespan=lifespan,  # Registra o ciclo de vida configurado acima
 )
 
 
-# 4. Registo e Inclusão das Rotas (Routers)
+# 4. Registro e Inclusão das Rotas (Routers)
 # Inclui o router de predição do MNIST dentro da aplicação principal
 app.include_router(mnist_router)
 
