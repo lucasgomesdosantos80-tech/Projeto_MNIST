@@ -1,35 +1,33 @@
-from fastapi import APIRouter, HTTPException
-from schemas.mnist_schema import MNISTInput, MNISTResponse
+# 1. Importação das bibliotecas e dependências do FastAPI e da camada de serviço
+from fastapi import APIRouter, File, HTTPException, UploadFile
 from services.mnist_service import mnist_service
 
+# 2. Configuração do APIRouter com o prefixo "/mnist" e tags para o Swagger
 router = APIRouter(prefix="/mnist", tags=["Classificação MNIST"])
 
-@router.get("/health", summary="Checagem de integridade operacional")
-def health_check():
-    return{
-        "status": "online",
-        "message": "Serviço ativo e modelo de Machine Learning carregado na memória RAM"
-    }
 
-@router.post("/predict", response_model=MNISTResponse, summary="Prediz o dígito manuscrito com base nos pixels")
-def predict_digit(data: MNISTInput):
-    try:
-        # Garante que a lista possui exatamente 784 elementos (28x28 pixels)
-        if len(data.pixels) != 784:
-            raise HTTPException(
-                status_code=400, 
-                detail="A lista de pixels deve conter exatamente 784 valores."
-            )
-        
-        # Executa a predição através do serviço
-        result = mnist_service.predict(data.pixels)
-        
-        return MNISTResponse(
-            predicao=result["predicao"],
-            probabilidade=result["probabilidade"]
-        )
+# 3. Rota POST para receber o upload da imagem do dígito manuscrito
+@router.post("/predict")
+async def prever_digito(file: UploadFile = File(...)):
+  try:
+    # 3.1. Leitura dos bytes binários da imagem enviada pelo utilizador
+    image_bytes = await file.read()
 
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    # 3.2. Chamada do serviço para pré-processamento e inferência do modelo
+    resultado = mnist_service.predict_image(image_bytes)
+
+    # 3.3. Retorno bem-sucedido do resultado estruturado
+    return resultado
+
+  # 4. Tratamento de Erros e Códigos de Status HTTP
+  except RuntimeError as re:
+    # 4.1. Erro 500: Falha crítica interna ou problema com o modelo na RAM
+    raise HTTPException(
+        status_code=500, detail=f"Erro interno no servidor: {str(re)}"
+    )
+
+  except Exception as e:
+    # 4.2. Erro 400: Falha no formato ou processamento da imagem enviada
+    raise HTTPException(
+        status_code=400, detail=f"Erro ao processar a imagem: {str(e)}"
+    )
